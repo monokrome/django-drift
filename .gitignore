@@ -1,0 +1,52 @@
+*.sqlite[3]
+
+*.py[cod]
+
+# Collected static files
+jupiter/static_collected/*
+
+# C extensions
+*.so
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+share
+include
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib/python2.*
+lib64
+
+# Installer logs
+pip-log.txt
+
+# node dependencies
+node_modules/*
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+#Translations
+*.mo
+
+#Mr Developer
+.mr.developer.cfg
+
+# IDE-specific patterns
+*.swp
+
+# Hidden files that aren't git-related
+.*
+!.gitmodules
+!.gitignore
+!.gitslave
