@@ -13,6 +13,12 @@ class ImportView(View, TemplateResponseMixin):
     model = None
     importers = []
 
+    def __init__(self, *args, **kwargs):
+        if hasattr(self.model, '__class__') and self.model.__class__ is str:
+            self.model = get_model(*self.model.split('.'))
+
+        super(ImportView, self).__init__(*args, **kwargs)
+
     def get(self, request):
         form = UploadForm()
 
