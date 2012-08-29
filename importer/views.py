@@ -1,8 +1,12 @@
 from django.http import HttpResponse
 from django.views.generic import View
 from django.views.generic.base import TemplateResponseMixin
+from django.db.models.loading import get_model
 from .forms import UploadForm
+from django.db import transaction
+import celery
  
+@transaction.commit_manually()
 class ImportView(View, TemplateResponseMixin):
     template_name = 'importer/import.html'
 
