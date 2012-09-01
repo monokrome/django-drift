@@ -1,40 +1,44 @@
 from django.http import HttpResponse
-from django.views.generic import View
-from django.views.generic.base import TemplateResponseMixin
-from django.db.models.loading import get_model
-from .forms import UploadForm
+from django.views.generic import CreateView
 from django.db import transaction
+from django.http import Http404
+from .forms import UploadForm
 import celery
  
-@transaction.commit_manually()
-class ImportView(View, TemplateResponseMixin):
-    template_name = 'importer/import.html'
-
-    model = None
+class ImportView(CreateView):
     importers = []
 
+    form_class = UploadForm
+
+    success_url = '/'
+    template_name = 'importer/import.html'
+
     def __init__(self, *args, **kwargs):
-        if hasattr(self.model, '__class__') and self.model.__class__ is str:
-            self.model = get_model(*self.model.split('.'))
+        # If a class was passed instead of an instance, then we need to
+        # instantiate it first.
+        for importer_index in self.importers:
+            importer = self.importers[importer_index]
+
+            if importer.__class__ is type:
+                self.importers[importer_index] = importer()
 
         super(ImportView, self).__init__(*args, **kwargs)
 
-    def get(self, request):
-        form = UploadForm()
-
-        context = {
-            'form': form,
-            'view': self,
-        }
-
-        return self.render_to_response(context)
-
-    def post(self, request, *args, **kwargs):
-        file = request.FILES['file']
+    def form_valid(self, form):
+        instance = form.instance
 
         for importer in self.importers:
-            if importer.match(file):
-                return importer.process(file)
+            if importer.match(form.instance):
+                instance.related_model = importer.model
+                instance.related_importer = importer.class_string
 
-        return HttpResponse('DERP DE DERP')
+                result = super(ImportView, self).form_valid(form)
 
+                # Everything is saved and ready to import, so pass
+                # this along to celery now.
+                importer.run.apply_async(args=[instance.pk])
+
+                return result
+
+        # TODO: Make this pretty.
+        raise Http404('No importers support the provided spreadsheet.')
