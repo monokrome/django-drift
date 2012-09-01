@@ -16,6 +16,7 @@ def autodiscover():
             import_module('{0}.importers'.format(application))
 
 def register(importer):
+
     # Don't allow any registration of importers that are not assigned a model
     if importer.model is None:
         raise ValueError('model attribute of {class_name} can not be None.'.format(
@@ -25,7 +26,7 @@ def register(importer):
     # Allow model to be set to a string representation or a direct reference
     if hasattr(importer.model, '__class__') and importer.model.__class__ is str:
         importer.model_string = importer.model
-        importer.model = get_model(*importer.model.split('.'))
+        importer.model = get_model(*importer.model_string.split('.'))
 
     else:
         importer.model_string = '{app_label}.{module_name}'.format(
@@ -47,6 +48,8 @@ def register(importer):
         pass
 
     importer.app_label = formatted_app_label
-    importer.module_name = importer.__name__.lower()
+    importer.module_name = importer.__class__.__name__.lower()
+    importer.class_string = '{importer.app_label}.{importer.module_name}'.format(
+        importer=importer)
 
     # TODO: Cached representation lookups using Django caching.

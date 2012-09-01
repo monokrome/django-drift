@@ -28,6 +28,8 @@ class ImportView(CreateView):
         instance = form.instance
 
         for importer in self.importers:
+            importer = importer()
+
             if importer.match(instance):
                 instance.related_model = importer.model
                 instance.related_importer = importer.class_string
@@ -36,7 +38,7 @@ class ImportView(CreateView):
 
                 # Everything is saved and ready to import, so pass
                 # this along to celery now.
-                importer.run.apply_async(args=[instance.pk])
+                importer.apply(instance.pk)
 
                 return result
 

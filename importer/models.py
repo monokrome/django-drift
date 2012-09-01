@@ -19,7 +19,7 @@ class ImportedFile(models.Model):
     status_description = models.CharField(max_length=128, null=True)
 
     def get_related_model(self):
-        return get_model(self.related_model)
+        return get_model(*self.related_model.split('.'))
 
     def get_related_importer(self):
-        return importer.from_string(self.related_importer)
+        return importer.Importer.from_string(self.related_importer)
