@@ -28,7 +28,7 @@ class ImportView(CreateView):
         instance = form.instance
 
         for importer in self.importers:
-            if importer.match(form.instance):
+            if importer.match(instance):
                 instance.related_model = importer.model
                 instance.related_importer = importer.class_string
 
