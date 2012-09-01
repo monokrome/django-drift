@@ -2,10 +2,13 @@ from .models import ImportedFile
 import celery
 
 @celery.task
-def importer_asyncronous_task(uploaded_file_pk):
-    imported_file = ImportedFile.objects.get(pk=uploaded_file_pk)
+def importer_asynchronous_task(uploaded_file_pk, *args, **kwargs):
+    logger = importer_asynchronous_task.get_logger()
 
-    model = imported_file.get_related_model()
-    importer = imported_file.get_related_importer()
+    imported_file = ImportedFile.objects.get(pk=uploaded_file_pk)
+    importer_class = imported_file.get_related_importer(**kwargs)
+
+    importer = importer_class()
+    importer.process(imported_file.file, logger)
 
     return True

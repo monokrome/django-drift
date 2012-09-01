@@ -48,7 +48,7 @@ def register(importer):
         pass
 
     importer.app_label = formatted_app_label
-    importer.module_name = importer.__class__.__name__.lower()
+    importer.module_name = importer.__name__.lower()
     importer.class_string = '{importer.app_label}.{importer.module_name}'.format(
         importer=importer)
 

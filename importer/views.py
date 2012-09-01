@@ -31,7 +31,7 @@ class ImportView(CreateView):
             importer = importer()
 
             if importer.match(instance):
-                instance.related_model = importer.model
+                # instance.related_model = importer.model
                 instance.related_importer = importer.class_string
 
                 result = super(ImportView, self).form_valid(form)

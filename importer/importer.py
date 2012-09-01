@@ -1,6 +1,6 @@
 from django.utils.module_loading import module_has_submodule
 from django.utils.importlib import import_module
-from .tasks import importer_asyncronous_task
+from .tasks import importer_asynchronous_task
 from django.conf import settings
 
 not_implemented_error = 'Importer of type {type} does not implement {name}().'
@@ -41,7 +41,13 @@ class Importer(object):
             name='match')
 
     def apply(self, *args, **kwargs):
-        importer_asyncronous_task.apply_async(args=args, kwargs=kwargs)
+        importer_asynchronous_task.apply_async(args=args, kwargs=kwargs)
+
+    def process(self, instance, logger=None):
+        raise NotImplementedError(
+            type=not_implemented_error.format(self.__class__.__name__),
+            name='process'
+        )
 
     @classmethod
     def from_string(cls, representation):
