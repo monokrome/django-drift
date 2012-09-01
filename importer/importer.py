@@ -16,10 +16,16 @@ class Importer(object):
             type=not_implemented_error.format(self.__class__.__name__),
             name='match')
 
-    def run(self, instance):
+    @task
+    def run(self, pk):
+        instance = self.model.objects.get(pk=pk)
+
+        return self.process(instance)
+
+    def process(self, instance):
         raise NotImplementedError(
             type=not_implemented_error.format(self.__class__.__name__),
-                name='process')
+            name='process')
 
     @classmethod
     def from_string(cls, representation):
