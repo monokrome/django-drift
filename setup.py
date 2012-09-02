@@ -26,7 +26,7 @@ for filename in metafiles:
 dependencies = []
 
 metadata = {
-    'name': 'django-importer',
+    'name': 'django-importer-better',
     'version': '0.1',
     'description': 'Takes files and turns them into recrods in models. HOORAY!',
     'long_description': metafiles['README.md'] + '\n\n' + metafiles['CHANGES.md'],
