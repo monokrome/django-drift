@@ -36,6 +36,9 @@ metadata = {
     'url': 'http://github.com/monokrome/django-importer',
     'keywords': '',
     'packages': ['importer'],
+    'package_data': {
+        'importer': ['templates/importer/*'],
+    },
     'install_requires': dependencies,
     'tests_require': dependencies,
 }
