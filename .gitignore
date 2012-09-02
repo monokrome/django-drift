@@ -24,6 +24,7 @@ develop-eggs
 .installed.cfg
 lib/python2.*
 lib64
+MANIFEST
 
 # Installer logs
 pip-log.txt
