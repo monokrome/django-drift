@@ -14,6 +14,9 @@ class Loader(object):
     def open(self):
         raise NotImplementedError(base_loader_error)
 
+    def close(self):
+        pass
+
     @classmethod
     def sniff(cls, file_info):
         raise NotImplementedError(base_loader_error)
@@ -31,6 +34,9 @@ class ExcelLoader(Loader):
         """ Returns a sheet based on it's name. """
 
         return self.backend.sheet_by_name(name)
+
+    def close(self):
+        self.backend.release_resources()
 
     @classmethod
     def sniff(cls, file_info):
