@@ -145,12 +145,16 @@ class SpreadsheetImporter(Importer):
 
         loader.open(file_info.path)
 
-        sheets = self.get_sheet_list(loader)
+        try:
+            sheets = self.get_sheet_list(loader)
 
-        if sheets is not None:
-            for identifier in sheets:
-                self.parse_sheet(sheet, identifier)
-        else:
-            self.parse_sheet(loader, identifier)
+            if sheets is not None:
+                for identifier in sheets:
+                    self.parse_sheet(sheet, identifier)
+            else:
+                self.parse_sheet(loader, identifier)
+
+        finally:
+            loader.close()
 
 # TODO: DocumentImporter for PDF, Word, Pages, and text files.
