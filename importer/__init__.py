@@ -1,5 +1,5 @@
 from django.db.models.loading import get_model
-from .importer import Importer
+from .importers import Importer
 
 def autodiscover():
     """ Search for any apps that implement importers and set it up. """
