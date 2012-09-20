@@ -21,7 +21,6 @@ def get_object_from_module(representation, container_module_name):
             if module_has_submodule(module_reference, container_module_name):
                 module = import_module('{0}.{1}'.format(application, container_module_name))
 
-                # TODO: Not use dir(). Seriously.
                 items_in_module = dir(module)
 
                 for index in items_in_module:
