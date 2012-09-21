@@ -1,0 +1,8 @@
+Characters,Float,Decimal,Integer,PositiveInteger,NullBoolean,DateTime,Date,Time,Email,GenericIPAddressField,URL Field
+There,624.46,624.46,123,123,Yes,10/16/86 20:14,10/16/86,15:27:42,monokrome@monokro.me,10.0.1.234,http://monokro.me
+Is,8345.2,8345.2,52,52,TRUE,4/17/14,4/17/14,11:14:27,monokrome@LimpidTech.com,10.0.10.24,ftp://djynamite.com
+a tasty,2795.6,2795.6,-167897,167897,No,4/12/96 14:23,4/12/96,14:23,brandon.stoner@gmail.com,192.168.1.57,mailto://monokrome@monokro.me
+sandwich,842.364,842.364,542,542,FALSE,7/1/99,7/1/99,0:00:00,example+withalias@monokro.me,4.2.2.6,www.audalysis.com
+in,24786.967,24786.967,-252,252,,4/1/12,4/1/12,7:00 AM,example@example.co.uk,2001:db8:85a3:0:0:8a2e:370:7334,google.com
+the,1.32675,1.32675,14,14,0,4/11/12,4/11/12,4:00 PM,example@example.com,::ffff:192.0.2.128,telnet://10.0.1.12:22
+fridge,67,67,-63,63,1,8/16/29,8/16/29,12:00 AM,developers@audalysis.com,::ffff:c000:280,ssh://ssh.example.com
