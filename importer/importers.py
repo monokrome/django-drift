@@ -87,6 +87,7 @@ class SpreadsheetImporter(Importer):
     type = None
     """ Can be set to a loader class in order to prevent sniffing. """
 
+    # TODO: Modified header map to use multiple sheet's headers.
     header_map = {}
     """ Maps model fields to headers in the spreadsheet. """
 
