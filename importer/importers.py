@@ -137,11 +137,15 @@ class SpreadsheetImporter(Importer):
 
         if loader is None:
             for loader_class in self.spreadsheet_types:
-                if self.type not in self.spreadsheet_types[loader]:
-                    continue
+                if self.type is not None:
+                    if self.type not in self.spreadsheet_types[loader]:
+                        continue
 
                 if loader_class.sniff(file_info):
                     loader = loader_class(file_info)
+
+        if loader is None:
+            raise ImportFailure('A loader could not be found for this import.')
 
         loader.open(file_info.path)
 
