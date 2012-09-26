@@ -122,7 +122,7 @@ class SpreadsheetImporter(Importer):
             return [0]
 
         if self.multiple_sheets is True:
-            return loader.sheet_names()
+            return loader.sheet_names
 
         return self.multiple_sheets
 

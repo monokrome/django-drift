@@ -31,7 +31,7 @@ class ExcelLoader(Loader):
 
     def open(self):
         self.backend = xlrd.open_workbook(self.filename)
-        self.sheet_names = self.backend.sheet_names
+        self.sheet_names = self.backend.sheet_names()
         self.sheet_count = len(self.sheet_names)
 
     def sheet_by_name(self, name):
