@@ -152,7 +152,7 @@ class SpreadsheetImporter(Importer):
 
             if sheets is not None:
                 for identifier in sheets:
-                    self.parse_sheet(sheet, identifier)
+                    self.process_sheet(sheet, identifier)
             else:
                 self.parse_sheet(loader, identifier)
 
