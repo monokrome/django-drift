@@ -6,7 +6,12 @@ assuming_failure_message = '{0} did not return True. Assuming failure.'
 
 # TODO: Find a better way to get the tuple values from models.import_statuses
 processing_status = 10
+processing_description = 'Processing the data in {filename}.'
+
 success_status = 20
+success_description = 'The import appears to have completed successfully.'
+
+# The description for failures is the contents of the exception message.
 failure_status = 30
 
 @celery.task
@@ -23,6 +28,7 @@ def importer_asynchronous_task(uploaded_file_pk, *args, **kwargs):
     importer = importer_class()
 
     imported_file.status = processing_status
+    imported_file.status_description = 'Currently processing file'
     imported_file.save()
 
     try:
@@ -33,9 +39,10 @@ def importer_asynchronous_task(uploaded_file_pk, *args, **kwargs):
                 importer.__class__.__name__
             ))
 
-    except ImportFailure:
+    except ImportFailure, e:
         # TODO: Roll it back.
         imported_file.status = failure_status
+        imported_file.status_description = e.message
         imported_file.save()
 
         return False
