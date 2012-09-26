@@ -13,7 +13,7 @@ class Loader(object):
             return self.open(file_info)
 
         def open(self):
-        raise NotImplementedError(base_loader_error)
+            raise NotImplementedError(base_loader_error)
 
     def close(self):
         pass
