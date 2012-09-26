@@ -22,12 +22,6 @@ class Importer(object):
             type=not_implemented_error.format(self.__class__.__name__),
             name='match')
 
-    @task
-    def run(self, pk):
-        instance = self.model.objects.get(pk=pk)
-
-        return self.process(instance)
-
     def process(self, instance, logger):
         raise NotImplementedError(
             type=not_implemented_error.format(self.__class__.__name__),
