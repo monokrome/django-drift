@@ -3,7 +3,10 @@ import os
 
 base_loader_error = 'The Loader class can only be used by extending it.'
 
-excel_extensions = [ '.xls', ]
+excel_extensions = [
+    '.xls',
+    '.xlsx',
+]
 
 class Loader(object):
     def __init__(self, file_info, autoload=True):
