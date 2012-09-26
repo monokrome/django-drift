@@ -114,7 +114,7 @@ class SpreadsheetImporter(Importer):
     """ List of supported spreadsheet loaders mapped to type names. """
 
     def get_sheet_list(self, loader):
-        if loader.supports_sheets == False:
+        if loader.supports_sheets is False:
             return None
 
         if self.multiple_sheets is False:
