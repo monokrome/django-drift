@@ -5,17 +5,17 @@ import importer
 import_statuses = (
         (0,  'queued'),
         (10, 'processing'),
-        (20, 'completed'),
-        (30, 'failed'),
+        (20, 'success'),
+        (30, 'failure'),
 )
 
 class ImportedFile(models.Model):
     file = models.FileField(upload_to='imports')
-    status = models.PositiveIntegerField(max_length=3, default=0)
 
     related_model = models.CharField(max_length=128)
     related_importer = models.CharField(max_length=128)
 
+    status = models.PositiveIntegerField(max_length=3, default=0)
     status_description = models.CharField(max_length=128, null=True)
 
     def get_related_model(self):
