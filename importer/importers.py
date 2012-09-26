@@ -6,6 +6,11 @@ from .loaders import ExcelLoader
 
 not_implemented_error = 'Importer of type {type} does not implement {name}().'
 
+class ImportFailure(Exception):
+    """ Should be raised in order to indicate a failed import. """
+
+    pass
+
 class Importer(object):
     model = None
 
