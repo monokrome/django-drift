@@ -13,7 +13,7 @@ class Loader(object):
         self.filename = file_info.path
 
         if autoload is True:
-            return self.open(file_info)
+            return self.open()
 
         def open(self):
             raise NotImplementedError(base_loader_error)
