@@ -17,7 +17,7 @@ def importer_asynchronous_task(uploaded_file_pk, *args, **kwargs):
     importer_class = imported_file.get_related_importer(**kwargs)
 
     if importer_class is None:
-        import_file.status = 30
+        imported_file.status = 30
         return
 
     importer = importer_class()
@@ -27,7 +27,7 @@ def importer_asynchronous_task(uploaded_file_pk, *args, **kwargs):
 
     try:
         if importer.process(imported_file.file, logger) is True:
-            import_file.status = success_status
+            imported_file.status = success_status
         else:
             raise ImportFailure(assuming_failure_message.format(
                 importer.__class__.__name__
@@ -35,8 +35,8 @@ def importer_asynchronous_task(uploaded_file_pk, *args, **kwargs):
 
     except ImportFailure:
         # TODO: Roll it back.
-        import_file.status = failure_status
-        import_file.save()
+        imported_file.status = failure_status
+        imported_file.save()
 
         return False
 
