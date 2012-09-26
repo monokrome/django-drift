@@ -147,7 +147,7 @@ class SpreadsheetImporter(Importer):
         if loader is None:
             raise ImportFailure('A loader could not be found for this import.')
 
-        loader.open(file_info.path)
+        loader.open()
 
         try:
             sheets = self.get_sheet_list(loader)
