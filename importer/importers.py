@@ -28,7 +28,7 @@ class Importer(object):
 
         return self.process(instance)
 
-    def process(self, instance):
+    def process(self, instance, logger):
         raise NotImplementedError(
             type=not_implemented_error.format(self.__class__.__name__),
             name='process')
@@ -131,13 +131,13 @@ class SpreadsheetImporter(Importer):
 
         return self.multiple_sheets
 
-    def process_sheet(self, sheet, name):
+    def process_sheet(self, sheet, name, logger):
         raise NotImplementedError(not_implemented_error.format(
             type=self.__class__.__name__,
             name='process_name'
         ))
 
-    def process(self, file_info):
+    def process(self, file_info, logger):
         loader = self.type
 
         if loader is None:
