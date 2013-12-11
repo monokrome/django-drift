@@ -1,12 +1,15 @@
 import xlrd
 import os
 
+
 base_loader_error = 'The Loader class can only be used by extending it.'
+
 
 excel_extensions = [
     '.xls',
     '.xlsx',
 ]
+
 
 class Loader(object):
     def __init__(self, file_info, autoload=True):
@@ -24,6 +27,7 @@ class Loader(object):
     @classmethod
     def sniff(cls, file_info):
         raise NotImplementedError(base_loader_error)
+
 
 class ExcelLoader(Loader):
     supports_sheets = True
@@ -47,6 +51,7 @@ class ExcelLoader(Loader):
 
         # TODO: Find a way to really sniff the file.
         return os.path.splitext(file_info.path)[-1] in excel_extensions
+
 
 # TODO: Finish Loader for importing from CSV data.
 class CSVLoader(Loader):
