@@ -15,8 +15,8 @@ class Loader(object):
         if autoload is True:
             return self.open()
 
-        def open(self):
-            raise NotImplementedError(base_loader_error)
+    def open(self):
+        raise NotImplementedError(base_loader_error)
 
     def close(self):
         pass
