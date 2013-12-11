@@ -79,7 +79,7 @@ class Importer(object):
         return normalized_header
 
 # TODO: Consider support for Numbers.
-class SpreadsheetImporter(Importer):
+class SpreadSheetImporter(Importer):
     """ Imports spreadsheets in Excel & CSV formats.
 
     """

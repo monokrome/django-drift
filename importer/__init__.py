@@ -1,5 +1,5 @@
 from django.db.models.loading import get_model
-from .importers import Importer, SpreadsheetImporter, ImportFailure
+from .importers import Importer, SpreadSheetImporter, ImportFailure
 
 def autodiscover():
     """ Search for any apps that implement importers and set it up. """
