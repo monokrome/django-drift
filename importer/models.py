@@ -4,7 +4,7 @@ from django.db import models
 import importer
 
 
-import_statuses = getattr(
+statuses = getattr(
     settings,
     'IMPORTER_STATUSES',
     (
@@ -20,8 +20,12 @@ class Import(models.Model):
     related_model = models.CharField(max_length=128)
     related_importer = models.CharField(max_length=128)
 
-    status = models.PositiveIntegerField(max_length=3, default=0)
     status_description = models.CharField(max_length=128, null=True)
+    status = models.PositiveIntegerField(
+        max_length=3,
+        default=0,
+        choices=statuses
+    )
 
     def get_related_model(self):
         return get_model(*self.related_model.split('.'))
