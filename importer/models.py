@@ -9,9 +9,8 @@ import_statuses = (
         (30, 'failure'),
 )
 
-class ImportedFile(models.Model):
-    file = models.FileField(upload_to='imports')
 
+class Import(models.Model):
     related_model = models.CharField(max_length=128)
     related_importer = models.CharField(max_length=128)
 
@@ -23,3 +22,7 @@ class ImportedFile(models.Model):
 
     def get_related_importer(self):
         return importer.Importer.from_string(self.related_importer)
+
+
+class ImportedFile(models.Model):
+    file = models.FileField(upload_to='imports')
