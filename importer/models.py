@@ -1,12 +1,18 @@
 from django.db.models.loading import get_model
+from django.conf import settings
 from django.db import models
 import importer
 
-import_statuses = (
+
+import_statuses = getattr(
+    settings,
+    'IMPORTER_STATUSES',
+    (
         (0,  'queued'),
         (10, 'processing'),
         (20, 'success'),
         (30, 'failure'),
+    )
 )
 
 
