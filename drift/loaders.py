@@ -22,8 +22,8 @@ class Loader(object):
 
     type_name = None
 
-    def __init__(self, file_info, autoload=True):
-        self.filename = file_info.path
+    def __init__(self, context, autoload=True):
+        self.filename = context.path
 
         if autoload is True:
             return self.open()
@@ -35,11 +35,11 @@ class Loader(object):
         pass
 
     @classmethod
-    def sniff(cls, file_info):
+    def sniff(cls, context):
         if not cls.type_name: return False
         if not cls.type_name in extensions: return False
 
-        return os.path.splitext(file_info.path)[-1] in extensions[cls.type_name]
+        return os.path.splitext(context.path)[-1] in extensions[cls.type_name]
 
 
 class ExcelLoader(Loader):
