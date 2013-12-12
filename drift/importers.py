@@ -179,17 +179,15 @@ class SpreadSheetImporter(Importer):
         if loader is None or not isinstance(loader, Loader):
             raise ImportFailure('A loader could not be found for this import.')
 
-        try:
-            sheets = self.get_sheet_list(loader)
+        sheets = self.get_sheet_list(loader)
 
-            if sheets is not None:
-                for identifier in sheets:
-                    self.process_sheet(identifier, identifier, logger)
-            else:
-                self.process_sheet(loader, context, logger)
+        if sheets is not None:
+            for identifier in sheets:
+                self.process_sheet(identifier, identifier, logger)
+        else:
+            self.process_sheet(loader, context, logger)
 
-        finally:
-            loader.close()
+        loader.close()
 
 
 # TODO: DocumentImporter for PDF, Word, Pages, and text files.
