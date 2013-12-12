@@ -33,8 +33,6 @@ class ImportFailure(Exception):
 
 
 class Importer(object):
-    model = None
-
     app_label = None
     module_name = None
 
