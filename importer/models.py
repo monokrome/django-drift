@@ -36,7 +36,7 @@ class Import(models.Model):
         return None
 
 
-class FileImport(models.Model):
+class FileImport(Import):
     file = models.FileField(upload_to='imports')
 
     def get_context(self):
