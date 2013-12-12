@@ -31,12 +31,12 @@ def register(importer):
 
     absolute_app_label = str(importer.model.__module__)
 
-    # Remove the last module in the name (IE,
-    #   example.app_label.importers becomes example.app_label)
+    # Remove the last module in the name
+    #   IE: example.app_label.importers becomes example.app_label)
     formatted_app_label = absolute_app_label[0:absolute_app_label.rindex('.')]
 
-    # Remove anything before the last dot if it exists (IE,
-    #   example.app_label becomes app_label
+    # Remove anything before the last dot if it exists
+    #   IE: example.app_label becomes app_label
     try:
         formatted_app_label = formatted_app_label[formatted_app_label.rindex('.')+1:]
     except ValueError:
