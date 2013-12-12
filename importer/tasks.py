@@ -38,20 +38,24 @@ def importer_asynchronous_task(import_pk, *args, **kwargs):
     import_instance.status_description = 'Currently processing file'
     import_instance.save()
 
-    file_ref = getattr(import_instance, 'file', None)
+    import_context = import_instance.get_context()
 
-    if importer.process(file_ref, logger) is True:
-        import_instance.status = success_status
-        import_instance.status_description = success_description
-        import_instance.save()
+    try:
+        if importer.process(import_context, logger) is True:
+            import_instance.status = success_status
+            import_instance.status_description = success_description
+            import_instance.save()
 
-    else:
+        else:
+            raise ImportFailure(assuming_failure_message.format(
+                importer.__class__.__name__
+            ))
+
+    except ImportFailure, e:
         import_instance.status = failure_status
         import_instance.status_description = e.message
         import_instance.save()
 
-        raise ImportFailure(assuming_failure_message.format(
-            importer.__class__.__name__
-        ))
+
 
     return True
