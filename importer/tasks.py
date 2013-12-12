@@ -56,6 +56,4 @@ def importer_asynchronous_task(import_pk, *args, **kwargs):
         import_instance.status_description = e.message
         import_instance.save()
 
-
-
     return True
