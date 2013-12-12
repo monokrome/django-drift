@@ -29,7 +29,9 @@ for filename in metafiles:
         pass
 
 # No dependencies :)
-dependencies = []
+dependencies = [
+    'celery>=3.1.6',
+]
 
 metadata = {
     'name': 'django-drift',
