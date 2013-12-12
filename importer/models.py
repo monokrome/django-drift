@@ -18,8 +18,9 @@ class Import(models.Model):
     def inherited(self):
         for attribute in dir(self):
             value = getattr(self, attribute)
+            is_inherited = isinstance(value, self.__class__)
 
-            if isinstance(value, self.__class__) and value.pk == self.pk:
+            if is_inherited and value.import_ptr.pk == self.pk:
                 return value
 
         return self
