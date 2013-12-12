@@ -16,6 +16,9 @@ use_cache = getattr(
 not_implemented_error = 'Importer of type {type} does not implement {name}().'
 
 
+importer_cache_key_format = 'django:importer:from_string:{0}'
+
+
 class ImportFailure(Exception):
     """ Should be raised in order to indicate a failed import. """
 
@@ -39,14 +42,16 @@ class Importer(object):
             name='process')
 
     @classmethod
-    def from_string(cls, representation):
-        cache_key = 'django:importer:from_string:' + representation
+    def from_string(cls, class_string):
+        if use_cache:
+            cache_key = importer_cache_key_format.format(class_string)
+            cached = cache.get(cache_key)
 
-        cached = cache.get(cache_key)
-        if use_cache and cached: return cached
+            if cached:
+                return cached
 
-        app_label = representation[0:representation.index('.')]
-        module_name = representation[len(app_label)+1:]
+        app_label = class_string[0:class_string.index('.')]
+        module_name = class_string[len(app_label)+1:]
 
         for application in settings.INSTALLED_APPS:
             try:

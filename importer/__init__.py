@@ -1,5 +1,20 @@
 from django.db.models.loading import get_model
-from .importers import Importer, SpreadSheetImporter, ImportFailure
+from django.core.cache import cache
+from django.conf import settings
+
+
+from .importers import \
+    Importer, \
+    SpreadSheetImporter, \
+    ImportFailure, \
+    importer_cache_key_format
+
+
+use_cache = getattr(
+    settings,
+    'IMPORTER_CACHED',
+    True
+)
 
 
 def autodiscover():
@@ -46,3 +61,7 @@ def register(importer):
     importer.module_name = importer.__name__
     importer.class_string = '{importer.app_label}.{importer.module_name}'.format(
         importer=importer)
+
+    if use_cache:
+        cache_key = importer_cache_key_format.format(class_string)
+        cache.set(cache_key, result)
