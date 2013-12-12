@@ -40,13 +40,13 @@ class Importer(object):
 
     queue = default_queue
 
-    def match(self, instance):
+    def match(self, context):
         raise NotImplementedError(not_implemented_error.format(
             type=self.__class__.__name__,
             name='match'
         ))
 
-    def process(self, instance, logger):
+    def process(self, logger, context=None):
         raise NotImplementedError(not_implemented_error.format(
             type=self.__class__.__name__,
             name='process'
@@ -164,7 +164,7 @@ class SpreadSheetImporter(Importer):
             name='process_name'
         ))
 
-    def process(self, file_info, logger):
+    def process(self, logger, context=None):
         loader = self.type
 
         if loader is None:
