@@ -1,5 +1,6 @@
 from .models import ImportedFile, statuses
 from .importers import ImportFailure
+from django.db import transaction
 import celery
 
 
@@ -20,6 +21,7 @@ failure_status = 30
 
 
 @celery.task
+@transaction.atomic
 def importer_asynchronous_task(uploaded_file_pk, *args, **kwargs):
     logger = importer_asynchronous_task.get_logger()
 
