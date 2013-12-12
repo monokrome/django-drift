@@ -17,7 +17,7 @@ def autodiscover():
 
 
 def register(importer):
-    if not importer.model is None:
+    if importer.model is not None:
         # Allow model to be set to a string representation or a direct reference
         if hasattr(importer.model, '__class__') and importer.model.__class__ is str:
             importer.model_string = importer.model
