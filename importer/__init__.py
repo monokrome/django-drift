@@ -17,22 +17,17 @@ def autodiscover():
 
 
 def register(importer):
-    # Don't allow any registration of importers that are not assigned a model
-    if importer.model is None:
-        raise ValueError('model attribute of {class_name} can not be None.'.format(
-            class_name = importer.__class__.__name__
-        ))
+    if not importer.model is None:
+        # Allow model to be set to a string representation or a direct reference
+        if hasattr(importer.model, '__class__') and importer.model.__class__ is str:
+            importer.model_string = importer.model
+            importer.model = get_model(*importer.model_string.split('.'))
 
-    # Allow model to be set to a string representation or a direct reference
-    if hasattr(importer.model, '__class__') and importer.model.__class__ is str:
-        importer.model_string = importer.model
-        importer.model = get_model(*importer.model_string.split('.'))
-
-    else:
-        importer.model_string = '{app_label}.{module_name}'.format(
-            app_label = importer.model._meta.app_label,
-            module_name = importer.model._meta.module_name,
-        )
+        else:
+            importer.model_string = '{app_label}.{module_name}'.format(
+                app_label = importer.model._meta.app_label,
+                module_name = importer.model._meta.module_name,
+            )
 
     absolute_app_label = str(importer.model.__module__)
 
