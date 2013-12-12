@@ -46,5 +46,3 @@ def register(importer):
     importer.module_name = importer.__name__.lower()
     importer.class_string = '{importer.app_label}.{importer.module_name}'.format(
         importer=importer)
-
-    # TODO: Cached representation lookups using Django caching.
