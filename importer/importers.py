@@ -1,7 +1,7 @@
 from django.utils.module_loading import module_has_submodule
 from django.utils.importlib import import_module
 from celery.contrib.methods import task
-from django.core.caches import cache
+from django.core.cache import cache
 from django.conf import settings
 from .loaders import ExcelLoader
 
