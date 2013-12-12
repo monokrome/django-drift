@@ -17,7 +17,6 @@ statuses = getattr(
 
 
 class Import(models.Model):
-    related_model = models.CharField(max_length=128)
     related_importer = models.CharField(max_length=128)
 
     status_description = models.CharField(max_length=128, null=True)
