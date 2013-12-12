@@ -61,6 +61,13 @@ class SpreadSheetImporterTestCase(TestCase):
         self.assertEqual(len(sheets), 2)
         self.assertIs(result, sheets)
 
+    def test_importer_raises_not_implemented_error(self):
+        context = fixtures['excel']
+        importer = SpreadSheetImporter()
+
+        def process(): importer.process(None, context)
+        self.assertRaises(NotImplementedError, process)
+
     def test_importer_process_fails_without_loader(self):
         importer = ExampleImporter()
 
