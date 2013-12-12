@@ -17,7 +17,6 @@ def autodiscover():
 
 
 def register(importer):
-
     # Don't allow any registration of importers that are not assigned a model
     if importer.model is None:
         raise ValueError('model attribute of {class_name} can not be None.'.format(
