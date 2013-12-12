@@ -1,7 +1,6 @@
 from django.utils.module_loading import module_has_submodule
 from django.utils.importlib import import_module
 from celery.contrib.methods import task
-from django.core.cache import cache
 from django.conf import settings
 
 from .loaders import ExcelLoader, CSVLoader
@@ -15,17 +14,7 @@ default_queue = getattr(
 )
 
 
-use_cache = getattr(
-    settings,
-    'DRIFT_IMPORTER_CACHE',
-    True
-)
-
-
 not_implemented_error = 'Importer of type {type} does not implement {name}().'
-
-
-importer_cache_key_format = 'django:importer:from_string:{0}'
 
 
 class ImportFailure(Exception):
@@ -54,13 +43,6 @@ class Importer(object):
 
     @classmethod
     def from_string(cls, class_string):
-        if use_cache:
-            cache_key = importer_cache_key_format.format(class_string)
-            cached = cache.get(cache_key)
-
-            if cached:
-                return cached
-
         app_label = class_string[0:class_string.index('.')]
         module_name = class_string[len(app_label)+1:]
 
@@ -80,8 +62,6 @@ class Importer(object):
                     for item_name in items_in_module:
                         if item_name == module_name:
                             result = getattr(module, item_name)
-                            if use_cache: cache.set(cache_key, result)
-
                             return result
 
     def normalize_header(self, header, ignored_symbols='?!,'):

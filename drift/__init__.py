@@ -1,15 +1,12 @@
 from django.db.models.loading import get_model
-from django.core.cache import cache
 from django.conf import settings
-from .importers import use_cache
 from . import signals
 
 
 from .importers import \
     Importer, \
     SpreadSheetImporter, \
-    ImportFailure, \
-    importer_cache_key_format
+    ImportFailure
 
 
 def autodiscover():
@@ -27,7 +24,7 @@ def autodiscover():
 
 
 def register(importer):
-    if importer.model is not None:
+    if hasattr(importer, 'model') and importer.model is not None:
         # Allow model to be set to a string representation or a direct reference
         if hasattr(importer.model, '__class__') and importer.model.__class__ is str:
             importer.model_string = importer.model
@@ -39,7 +36,7 @@ def register(importer):
                 module_name = importer.model._meta.module_name,
             )
 
-    absolute_app_label = str(importer.model.__module__)
+    absolute_app_label = str(importer.__module__)
 
     # Remove the last module in the name
     #   IE: example.app_label.importers becomes example.app_label)
@@ -48,7 +45,8 @@ def register(importer):
     # Remove anything before the last dot if it exists
     #   IE: example.app_label becomes app_label
     try:
-        formatted_app_label = formatted_app_label[formatted_app_label.rindex('.')+1:]
+        index = formatted_app_label.rindex('.')
+        formatted_app_label = formatted_app_label[index+1:]
     except ValueError:
         pass
 
@@ -56,7 +54,3 @@ def register(importer):
     importer.module_name = importer.__name__
     importer.class_string = '{importer.app_label}.{importer.module_name}'.format(
         importer=importer)
-
-    if use_cache:
-        cache_key = importer_cache_key_format.format(class_string)
-        cache.set(cache_key, result)
