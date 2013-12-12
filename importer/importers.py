@@ -50,22 +50,20 @@ class Importer(object):
 
         for application in settings.INSTALLED_APPS:
             try:
-                app_found = application[application.rindex('.')+1:]
+                found_label = application[application.rindex('.')+1:]
             except ValueError:
-                app_found = application
+                found_label = application
 
-            if app_found == app_label:
+            if found_label == app_label:
                 module_reference = import_module(application)
 
                 if module_has_submodule(module_reference, 'importers'):
-                    module = import_module('{0}.importers'.format(application))
+                    module = import_module(application + '.importers')
+                    items_in_module = vars(module)
 
-                    # TODO: Not use dir(). Seriously.
-                    items_in_module = dir(module)
-
-                    for index in items_in_module:
-                        if index.lower() == module_name:
-                            result = getattr(module, index)
+                    for item_name in items_in_module:
+                        if item_name == module_name:
+                            result = getattr(module, item_name)
                             if use_cache: cache.set(cache_key, result)
 
                             return result
