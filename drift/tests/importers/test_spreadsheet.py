@@ -5,6 +5,9 @@ from drift.tests.mocks import fixtures
 from drift.importers import SpreadSheetImporter
 
 
+def return_none(*args, **kwargs): return None
+
+
 class ExampleImporter(SpreadSheetImporter):
     called_process_sheet = 0
 
@@ -22,9 +25,18 @@ class SpreadSheetImporterTestCase(TestCase):
         self.assertEqual(len(sheets), 1)
         self.assertEqual(sheets[0], 'Sheet1')
 
-    def test_importer_processes_sheet(self):
+    def test_importer_processes_sheet_with_sheets(self):
         context = fixtures['excel']
         importer = ExampleImporter()
+
+        importer.process(None, context)
+        self.assertIs(importer.called_process_sheet, 1)
+
+    def test_importer_processes_sheet_without_sheets(self):
+        context = fixtures['excel']
+        importer = ExampleImporter()
+
+        importer.get_sheet_list = return_none.__get__(ExampleImporter, importer)
 
         importer.process(None, context)
         self.assertIs(importer.called_process_sheet, 1)

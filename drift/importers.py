@@ -184,7 +184,7 @@ class SpreadSheetImporter(Importer):
                 for identifier in sheets:
                     self.process_sheet(identifier, identifier, logger)
             else:
-                self.parse_sheet(loader, identifier, logger)
+                self.process_sheet(loader, context, logger)
 
         finally:
             loader.close()
