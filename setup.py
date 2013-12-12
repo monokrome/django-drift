@@ -1,7 +1,13 @@
-from distutils.core import setup
-
 import os
 import sys
+
+
+try:
+    from setuptools import setup
+except ImportError:
+    from . import ez_setup
+    from setuptools import setup
+
 
 parent_directory = os.path.abspath(os.path.dirname(__file__))
 
