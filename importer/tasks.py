@@ -30,7 +30,7 @@ def importer_asynchronous_task(uploaded_file_pk, *args, **kwargs):
 
     if importer_class is None:
         import_instance.status = 30
-        return
+        return False
 
     importer = importer_class()
 
