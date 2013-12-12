@@ -88,6 +88,7 @@ class Importer(object):
 
         return normalized_header
 
+
 # TODO: Consider support for Numbers.
 class SpreadSheetImporter(Importer):
     """ Imports spreadsheets in Excel & CSV formats.
@@ -168,5 +169,6 @@ class SpreadSheetImporter(Importer):
 
         finally:
             loader.close()
+
 
 # TODO: DocumentImporter for PDF, Word, Pages, and text files.
