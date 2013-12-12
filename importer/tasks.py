@@ -1,6 +1,7 @@
-from .models import FileImport
+from celery.utils.log import get_task_logger
 from .importers import ImportFailure
 from django.db import transaction
+from .models import Import
 import celery
 
 
@@ -19,12 +20,14 @@ success_description = 'The import appears to have completed successfully.'
 failure_status = 'failure'
 
 
+# Get the logger for use with this task process
+logger = get_task_logger(__name__)
+
+
 @celery.shared_task
 def importer_asynchronous_task(import_pk, *args, **kwargs):
-    with transaction.atomic:
-        logger = importer_asynchronous_task.get_logger()
-
-        import_instance = FileImport.objects.get(pk=import_pk)
+    with transaction.atomic():
+        import_instance = Import.objects.get(pk=import_pk)
         ImportType = import_instance.get_related_importer(**kwargs)
 
         if ImportType is None:
