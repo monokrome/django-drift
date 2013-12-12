@@ -3,7 +3,7 @@ from django.utils.importlib import import_module
 from celery.contrib.methods import task
 from django.core.cache import cache
 from django.conf import settings
-from .loaders import ExcelLoader
+from .loaders import ExcelLoader, CSVLoader
 
 
 default_queue = getattr(
@@ -41,14 +41,16 @@ class Importer(object):
     queue = default_queue
 
     def match(self, instance):
-        raise NotImplementedError(
-            type=not_implemented_error.format(self.__class__.__name__),
-            name='match')
+        raise NotImplementedError(not_implemented_error.format(
+            type=self.__class__.__name__,
+            name='match'
+        ))
 
     def process(self, instance, logger):
-        raise NotImplementedError(
-            type=not_implemented_error.format(self.__class__.__name__),
-            name='process')
+        raise NotImplementedError(not_implemented_error.format(
+            type=self.__class__.__name__,
+            name='process'
+        ))
 
     @classmethod
     def from_string(cls, class_string):
