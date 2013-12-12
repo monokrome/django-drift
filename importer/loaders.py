@@ -1,3 +1,5 @@
+from django.conf import settings
+
 import xlrd
 import os
 
@@ -5,10 +7,13 @@ import os
 base_loader_error = 'The Loader class can only be used by extending it.'
 
 
-excel_extensions = [
-    '.xls',
-    '.xlsx',
-]
+extensions = getattr(
+    settings,
+    'IMPORTER_EXTENSIONS',
+    {
+        'excel': ('.xls', '.xlsx'),
+    }
+)
 
 
 class Loader(object):
@@ -50,7 +55,8 @@ class ExcelLoader(Loader):
     def sniff(cls, file_info):
 
         # TODO: Find a way to really sniff the file.
-        return os.path.splitext(file_info.path)[-1] in excel_extensions
+        if not 'excel' in extensions: return False
+        return os.path.splitext(file_info.path)[-1] in extensions['excel']
 
 
 # TODO: Finish Loader for importing from CSV data.
