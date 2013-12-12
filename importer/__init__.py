@@ -1,6 +1,7 @@
 from django.db.models.loading import get_model
 from .importers import Importer, SpreadSheetImporter, ImportFailure
 
+
 def autodiscover():
     """ Search for any apps that implement importers and set it up. """
 
@@ -9,11 +10,11 @@ def autodiscover():
     from django.utils.module_loading import module_has_submodule
 
     for application in settings.INSTALLED_APPS:
-
         module = import_module(application)
 
         if module_has_submodule(module, 'importers'):
             import_module('{0}.importers'.format(application))
+
 
 def register(importer):
 
