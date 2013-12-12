@@ -32,18 +32,18 @@ for filename in metafiles:
 dependencies = []
 
 metadata = {
-    'name': 'django-importer-better',
+    'name': 'django-drift',
     'version': '0.1',
     'description': 'Takes files and turns them into recrods in models. HOORAY!',
     'long_description': metafiles['README.md'] + '\n\n' + metafiles['CHANGES.md'],
     'classifiers': metafiles['CLASSIFIERS.txt'],
     'author': 'Brandon R. Stoner',
     'author_email': 'monokrome@limpidtech.com',
-    'url': 'http://github.com/monokrome/django-importer',
+    'url': 'http://github.com/monokrome/django-drift',
     'keywords': '',
-    'packages': ['importer'],
+    'packages': ['drift'],
     'package_data': {
-        'importer': ['templates/importer/*'],
+        'drift': ['templates/drift/*'],
     },
     'install_requires': dependencies,
     'tests_require': dependencies,

@@ -1,6 +1,6 @@
 from django.db.models.loading import get_model
 from django.db import models
-import importer
+from .importers import Importer
 
 
 class Import(models.Model):
@@ -10,7 +10,7 @@ class Import(models.Model):
     status_description = models.TextField(max_length=128, null=True, blank=True)
 
     def get_related_importer(self):
-        return importer.Importer.from_string(self.related_importer)
+        return Importer.from_string(self.related_importer)
 
     def get_context(self):
         return None
@@ -24,6 +24,7 @@ class Import(models.Model):
                 return value
 
         return self
+
 
 class FileImport(Import):
     file = models.FileField(upload_to='imports')

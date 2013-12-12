@@ -1,5 +1,5 @@
 from django.db.models.signals import post_save
-from .tasks import importer_asynchronous_task
+from .tasks import drift_task
 from django.conf import settings
 from .models import Import
 
@@ -18,7 +18,7 @@ def defer_import_execution(sender, instance, **kwargs):
         instance.status = 'queued'
         instance.save()
 
-        importer_asynchronous_task.apply_async([instance.pk])
+        drift_task.apply_async([instance.pk])
 
 
 if import_on_save is not False:

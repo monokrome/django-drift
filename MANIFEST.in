@@ -1,3 +1,2 @@
 include *.py *.txt *.md
-recursive-include importer/templates/importer *.html
-
+recursive-include drift/templates/drift *.html

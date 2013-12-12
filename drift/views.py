@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.views.generic import CreateView
 from django.db import transaction
 from django.http import Http404
-from .tasks import importer_asynchronous_task
+from .tasks import drift_task
 from .forms import UploadForm
 import celery
  
@@ -12,7 +12,7 @@ class ImportView(CreateView):
     form_class = UploadForm
 
     success_url = '/'
-    template_name = 'importer/import.html'
+    template_name = 'drift/import.html'
 
     def __init__(self, *args, **kwargs):
         # If a class was passed instead of an instance, then we need to
@@ -38,7 +38,7 @@ class ImportView(CreateView):
 
                 # Everything is saved and ready to import, so pass
                 # this along to celery now.
-                importer_asynchronous_task.apply_async([instance.pk])
+                drift_task.apply_async([instance.pk])
 
                 return result
 
