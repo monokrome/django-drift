@@ -35,7 +35,7 @@ dependencies = [
 
 metadata = {
     'name': 'django-drift',
-    'version': '0.1.1',
+    'version': '0.1.2',
     'description': 'Takes files and turns them into recrods in models. HOORAY!',
     'long_description': metafiles['README.md'] + '\n\n' + metafiles['CHANGES.md'],
     'classifiers': metafiles['CLASSIFIERS.txt'],
@@ -43,7 +43,11 @@ metadata = {
     'author_email': 'monokrome@limpidtech.com',
     'url': 'http://github.com/monokrome/django-drift',
     'keywords': '',
-    'packages': ['drift'],
+    'packages': [
+        'drift',
+        'drift.management',
+        'drift.management.commands',
+    ],
     'package_data': {
         'drift': ['templates/drift/*'],
     },
