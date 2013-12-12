@@ -26,13 +26,13 @@ def importer_asynchronous_task(import_pk, *args, **kwargs):
     logger = importer_asynchronous_task.get_logger()
 
     import_instance = FileImport.objects.get(pk=import_pk)
-    importer_class = import_instance.get_related_importer(**kwargs)
+    ImportType = import_instance.get_related_importer(**kwargs)
 
-    if importer_class is None:
+    if ImportType is None:
         import_instance.status = 30
         return False
 
-    importer = importer_class()
+    importer = ImportType()
 
     import_instance.status = processing_status
     import_instance.status_description = 'Currently processing file'
