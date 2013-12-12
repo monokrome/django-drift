@@ -15,6 +15,14 @@ class Import(models.Model):
     def get_context(self):
         return None
 
+    def inherited(self):
+        for attribute in dir(self):
+            value = getattr(self, attribute)
+
+            if isinstance(value, self.__class__) and value.pk == self.pk:
+                return value
+
+        return self
 
 class FileImport(Import):
     file = models.FileField(upload_to='imports')
