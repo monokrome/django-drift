@@ -43,11 +43,6 @@ class ExcelLoader(Loader):
         self.sheet_names = self.backend.sheet_names()
         self.sheet_count = len(self.sheet_names)
 
-    def sheet_by_name(self, name):
-        """ Returns a sheet based on it's name. """
-
-        return self.backend.sheet_by_name(name)
-
     def close(self):
         self.backend.release_resources()
 
@@ -57,6 +52,11 @@ class ExcelLoader(Loader):
         # TODO: Find a way to really sniff the file.
         if not 'excel' in extensions: return False
         return os.path.splitext(file_info.path)[-1] in extensions['excel']
+
+    def sheet_by_name(self, name):
+        """ Returns a sheet based on it's name. """
+
+        return self.backend.sheet_by_name(name)
 
 
 # TODO: Finish Loader for importing from CSV data.
