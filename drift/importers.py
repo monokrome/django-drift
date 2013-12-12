@@ -5,6 +5,7 @@ from django.core.cache import cache
 from django.conf import settings
 
 from .loaders import ExcelLoader, CSVLoader
+from drift.loaders import Loader
 
 
 default_queue = getattr(
@@ -166,7 +167,7 @@ class SpreadSheetImporter(Importer):
     def process(self, logger, context=None):
         loader = self.type
 
-        if loader is None:
+        if loader is None or isinstance(loader, basestring):
             for loader_class in self.spreadsheet_types:
                 if self.type is not None:
                     if self.type not in self.spreadsheet_types[loader]:

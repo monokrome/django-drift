@@ -67,6 +67,15 @@ class SpreadSheetImporterTestCase(TestCase):
         def process(*args, **kwargs): importer.process(None, fixtures['unknown'])
         self.assertRaises(ImportFailure, process)
 
+    def test_importer_processes_sheet_with_explicit_type_string(self):
+        context = fixtures['excel']
+
+        importer = ExampleImporter()
+        importer.type = 'excel'
+
+        importer.process(None, context)
+        self.assertIs(importer.called_process_sheet, 1)
+
     def test_importer_processes_sheet_with_sheets(self):
         context = fixtures['excel']
         importer = ExampleImporter()
