@@ -12,6 +12,7 @@ extensions = getattr(
     'IMPORTER_EXTENSIONS',
     {
         'excel': ('.xls', '.xlsx'),
+        'csv': ('csv',)
     }
 )
 
