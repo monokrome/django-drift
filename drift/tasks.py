@@ -27,7 +27,13 @@ logger = get_task_logger(__name__)
 @celery.shared_task
 def drift_task(import_pk, *args, **kwargs):
     with transaction.atomic():
-        import_instance = Import.objects.get(pk=import_pk).inherited()
+        if not isinstance(import_pk, Import):
+            import_instance = Import.objects.get(pk=import_pk)
+        else:
+            import_instance = import_pk
+
+        import_instance = import_instance.inherited()
+
         ImportType = import_instance.get_related_importer(**kwargs)
 
         if ImportType is None:
