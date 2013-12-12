@@ -1,15 +1,19 @@
 from django.utils.module_loading import module_has_submodule
 from django.utils.importlib import import_module
 from celery.contrib.methods import task
+from django.core.caches import cache
 from django.conf import settings
 from .loaders import ExcelLoader
 
+
 not_implemented_error = 'Importer of type {type} does not implement {name}().'
+
 
 class ImportFailure(Exception):
     """ Should be raised in order to indicate a failed import. """
 
     pass
+
 
 class Importer(object):
     model = None
@@ -29,7 +33,10 @@ class Importer(object):
 
     @classmethod
     def from_string(cls, representation):
-        # TODO: Cache representations in a dict.
+        cache_key = 'django:importer:from_string:' + representation
+
+        cached = cache.get(cache_key)
+        if cached: return cached
 
         app_label = representation[0:representation.index('.')]
         module_name = representation[len(app_label)+1:]
@@ -51,7 +58,10 @@ class Importer(object):
 
                     for index in items_in_module:
                         if index.lower() == module_name:
-                            return getattr(module, index)
+                            result = getattr(module, index)
+                            cache.set(cache_key, result)
+
+                            return result
 
     def normalize_header(self, header, ignored_symbols='?!,'):
         """ Normalizes argument string to a more predictable format.
