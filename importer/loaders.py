@@ -54,8 +54,8 @@ class ExcelLoader(Loader):
     def sniff(cls, file_info):
 
         # TODO: Find a way to really sniff the file.
-        if not 'excel' in extensions: return False
-        return os.path.splitext(file_info.path)[-1] in extensions['excel']
+        if not self.type_name in extensions: return False
+        return os.path.splitext(file_info.path)[-1] in extensions[self.type_name]
 
     def sheet_by_name(self, name):
         """ Returns a sheet based on it's name. """
