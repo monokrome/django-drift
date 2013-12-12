@@ -1,6 +1,7 @@
 from django.db.models.loading import get_model
 from django.core.cache import cache
 from django.conf import settings
+from . import signals
 
 
 from .importers import \
