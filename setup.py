@@ -35,7 +35,7 @@ dependencies = [
 
 metadata = {
     'name': 'django-drift',
-    'version': '0.1',
+    'version': '0.1.1',
     'description': 'Takes files and turns them into recrods in models. HOORAY!',
     'long_description': metafiles['README.md'] + '\n\n' + metafiles['CHANGES.md'],
     'classifiers': metafiles['CLASSIFIERS.txt'],
