@@ -6,9 +6,16 @@ from django.conf import settings
 from .loaders import ExcelLoader
 
 
+default_queue = getattr(
+    settings,
+    'DRIFT_DEFAULT_QUEUE',
+    'drift'
+)
+
+
 use_cache = getattr(
     settings,
-    'IMPORTER_CACHED',
+    'DRIFT_IMPORTER_CACHE',
     True
 )
 
@@ -30,6 +37,8 @@ class Importer(object):
 
     app_label = None
     module_name = None
+
+    queue = default_queue
 
     def match(self, instance):
         raise NotImplementedError(

@@ -1,6 +1,7 @@
 from django.db.models.loading import get_model
 from django.core.cache import cache
 from django.conf import settings
+from .importers import use_cache
 from . import signals
 
 
@@ -9,13 +10,6 @@ from .importers import \
     SpreadSheetImporter, \
     ImportFailure, \
     importer_cache_key_format
-
-
-use_cache = getattr(
-    settings,
-    'IMPORTER_CACHED',
-    True
-)
 
 
 def autodiscover():

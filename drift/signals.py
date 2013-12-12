@@ -6,7 +6,7 @@ from .models import Import
 
 import_on_save = getattr(
     settings,
-    'IMPORTER_AUTOMATIC',
+    'DRIFT_IMPORT_ON_SAVE',
     'created'
 )
 

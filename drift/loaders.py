@@ -9,7 +9,7 @@ base_loader_error = 'The Loader class can only be used by extending it.'
 
 extensions = getattr(
     settings,
-    'IMPORTER_EXTENSIONS',
+    'DRIFT_LOADER_EXTENSIONS',
     {
         'excel': ('.xls', '.xlsx'),
         'csv': ('csv',)
