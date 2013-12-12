@@ -17,6 +17,8 @@ extensions = getattr(
 
 
 class Loader(object):
+    """ Detects and loads data from files. """
+
     def __init__(self, file_info, autoload=True):
         self.filename = file_info.path
 
@@ -35,6 +37,8 @@ class Loader(object):
 
 
 class ExcelLoader(Loader):
+    """ Detects and loads files stored in Excel formats. """
+
     supports_sheets = True
     type_name = 'excel'
 
@@ -61,4 +65,6 @@ class ExcelLoader(Loader):
 
 # TODO: Finish Loader for importing from CSV data.
 class CSVLoader(Loader):
+    """ Detects and loads files stored in CSV format. """
+
     supports_sheets = False
