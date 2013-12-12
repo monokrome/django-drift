@@ -1,11 +1,19 @@
 from django.utils.unittest import TestCase
 
-from drift.loaders import ExcelLoader
+from drift.loaders import Loader, ExcelLoader
 from drift.tests.mocks import fixtures
-from drift.importers import SpreadSheetImporter
+from drift.importers import SpreadSheetImporter, ImportFailure
 
 
 def return_none(*args, **kwargs): return None
+
+
+class FakeLoader(Loader):
+    path = None
+
+    @classmethod
+    def sniff(self, *args, **kwargs):
+        return None
 
 
 class ExampleImporter(SpreadSheetImporter):
@@ -24,6 +32,12 @@ class SpreadSheetImporterTestCase(TestCase):
 
         self.assertEqual(len(sheets), 1)
         self.assertEqual(sheets[0], 'Sheet1')
+
+    def test_importer_process_fails_without_loader(self):
+        importer = ExampleImporter()
+
+        def process(*args, **kwargs): importer.process(None, fixtures['unknown'])
+        self.assertRaises(ImportFailure, process)
 
     def test_importer_processes_sheet_with_sheets(self):
         context = fixtures['excel']
