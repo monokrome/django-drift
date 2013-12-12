@@ -1,6 +1,13 @@
 from django.contrib import admin
-from .models import FileImport
+from .models import Import, FileImport
 
 
-admin.site.register(FileImport)
+class ImportAdmin(admin.ModelAdmin):
+    readonly_fields = (
+        'status_description',
+        'status',
+    )
 
+
+admin.site.register(Import, ImportAdmin)
+admin.site.register(FileImport, ImportAdmin)
