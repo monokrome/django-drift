@@ -33,6 +33,12 @@ class Import(models.Model):
     def get_related_importer(self):
         return importer.Importer.from_string(self.related_importer)
 
+    def get_context(self):
+        return None
+
 
 class FileImport(models.Model):
     file = models.FileField(upload_to='imports')
+
+    def get_context(self):
+        return self.file
