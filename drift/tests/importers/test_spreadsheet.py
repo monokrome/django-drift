@@ -24,6 +24,22 @@ class ExampleImporter(SpreadSheetImporter):
 
 
 class SpreadSheetImporterTestCase(TestCase):
+    def test_get_sheet_list_without_sheets_support(self):
+        loader = ExcelLoader(fixtures['excel'])
+
+        importer = SpreadSheetImporter()
+        importer.supports_sheets = False
+
+        sheets = importer.get_sheet_list(loader)
+
+    def test_get_sheet_list_without_multiple_sheets_support(self):
+        loader = ExcelLoader(fixtures['excel'])
+
+        importer = SpreadSheetImporter()
+        importer.multiple_sheets = False
+
+        sheets = importer.get_sheet_list(loader)
+
     def test_get_sheet_list(self):
         loader = ExcelLoader(fixtures['excel'])
         importer = SpreadSheetImporter()
@@ -32,6 +48,18 @@ class SpreadSheetImporterTestCase(TestCase):
 
         self.assertEqual(len(sheets), 1)
         self.assertEqual(sheets[0], 'Sheet1')
+
+    def test_get_sheet_list_with_explicit_sheets(self):
+        sheets = ['Sheet1', 'Sheet2']
+
+        loader = ExcelLoader(fixtures['excel'])
+        importer = SpreadSheetImporter()
+        importer.multiple_sheets = sheets
+
+        result = importer.get_sheet_list(loader)
+
+        self.assertEqual(len(sheets), 2)
+        self.assertIs(result, sheets)
 
     def test_importer_process_fails_without_loader(self):
         importer = ExampleImporter()
