@@ -6,6 +6,13 @@ from django.conf import settings
 from .loaders import ExcelLoader
 
 
+use_cache = getattr(
+    settings,
+    'IMPORTER_CACHED',
+    True
+)
+
+
 not_implemented_error = 'Importer of type {type} does not implement {name}().'
 
 
@@ -36,7 +43,7 @@ class Importer(object):
         cache_key = 'django:importer:from_string:' + representation
 
         cached = cache.get(cache_key)
-        if cached: return cached
+        if use_cache and cached: return cached
 
         app_label = representation[0:representation.index('.')]
         module_name = representation[len(app_label)+1:]
@@ -59,7 +66,7 @@ class Importer(object):
                     for index in items_in_module:
                         if index.lower() == module_name:
                             result = getattr(module, index)
-                            cache.set(cache_key, result)
+                            if use_cache: cache.set(cache_key, result)
 
                             return result
 
