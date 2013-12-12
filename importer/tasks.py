@@ -22,10 +22,10 @@ failure_status = 30
 
 @celery.task
 @transaction.atomic
-def importer_asynchronous_task(uploaded_file_pk, *args, **kwargs):
+def importer_asynchronous_task(import_pk, *args, **kwargs):
     logger = importer_asynchronous_task.get_logger()
 
-    import_instance = FileImport.objects.get(pk=uploaded_file_pk)
+    import_instance = FileImport.objects.get(pk=import_pk)
     importer_class = import_instance.get_related_importer(**kwargs)
 
     if importer_class is None:
