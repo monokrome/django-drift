@@ -19,7 +19,7 @@ success_description = 'The import appears to have completed successfully.'
 failure_status = 'failure'
 
 
-@celery.task
+@celery.shared_task
 @transaction.atomic
 def importer_asynchronous_task(import_pk, *args, **kwargs):
     logger = importer_asynchronous_task.get_logger()
