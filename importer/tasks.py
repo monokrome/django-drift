@@ -1,4 +1,4 @@
-from .models import FileImport, statuses
+from .models import FileImport
 from .importers import ImportFailure
 from django.db import transaction
 import celery
@@ -7,17 +7,16 @@ import celery
 assuming_failure_message = '{0} did not return True. Assuming failure.'
 
 
-# TODO: Find a better way to get the tuple values from models.import_statuses
-processing_status = 10
+processing_status = 'processing'
 processing_description = 'Processing the data in {filename}.'
 
 
-success_status = 20
+success_status = 'success'
 success_description = 'The import appears to have completed successfully.'
 
 
 # The description for failures is the contents of the exception message.
-failure_status = 30
+failure_status = 'failure'
 
 
 @celery.task
