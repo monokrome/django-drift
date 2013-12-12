@@ -19,6 +19,8 @@ extensions = getattr(
 class Loader(object):
     """ Detects and loads data from files. """
 
+    type_name = None
+
     def __init__(self, file_info, autoload=True):
         self.filename = file_info.path
 
@@ -33,7 +35,10 @@ class Loader(object):
 
     @classmethod
     def sniff(cls, file_info):
-        raise NotImplementedError(base_loader_error)
+        if not cls.type_name: return False
+        if not cls.type_name in extensions: return False
+
+        return os.path.splitext(file_info.path)[-1] in extensions[cls.type_name]
 
 
 class ExcelLoader(Loader):
@@ -50,13 +55,6 @@ class ExcelLoader(Loader):
     def close(self):
         self.backend.release_resources()
 
-    @classmethod
-    def sniff(cls, file_info):
-
-        # TODO: Find a way to really sniff the file.
-        if not self.type_name in extensions: return False
-        return os.path.splitext(file_info.path)[-1] in extensions[self.type_name]
-
     def sheet_by_name(self, name):
         """ Returns a sheet based on it's name. """
 
@@ -68,3 +66,4 @@ class CSVLoader(Loader):
     """ Detects and loads files stored in CSV format. """
 
     supports_sheets = False
+    type_name = 'csv'
