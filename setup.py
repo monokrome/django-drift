@@ -45,6 +45,7 @@ metadata = {
     'package_data': {
         'drift': ['templates/drift/*'],
     },
+    'test_suite': 'drift.tests',
     'install_requires': dependencies,
     'tests_require': dependencies,
 }
