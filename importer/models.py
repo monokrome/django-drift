@@ -9,9 +9,6 @@ class Import(models.Model):
     status = models.CharField(max_length=32, default='created')
     status_description = models.TextField(max_length=128, null=True, blank=True)
 
-    def get_related_model(self):
-        return get_model(*self.related_model.split('.'))
-
     def get_related_importer(self):
         return importer.Importer.from_string(self.related_importer)
 
