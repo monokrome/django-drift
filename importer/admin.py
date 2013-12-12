@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import ImportedFile
+from .models import FileImport
 
-admin.site.register(ImportedFile)
+
+admin.site.register(FileImport)
 

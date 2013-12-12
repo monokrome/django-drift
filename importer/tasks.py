@@ -1,4 +1,4 @@
-from .models import ImportedFile, statuses
+from .models import FileImport, statuses
 from .importers import ImportFailure
 from django.db import transaction
 import celery
@@ -25,7 +25,7 @@ failure_status = 30
 def importer_asynchronous_task(uploaded_file_pk, *args, **kwargs):
     logger = importer_asynchronous_task.get_logger()
 
-    import_instance = ImportedFile.objects.get(pk=uploaded_file_pk)
+    import_instance = FileImport.objects.get(pk=uploaded_file_pk)
     importer_class = import_instance.get_related_importer(**kwargs)
 
     if importer_class is None:

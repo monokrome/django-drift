@@ -34,5 +34,5 @@ class Import(models.Model):
         return importer.Importer.from_string(self.related_importer)
 
 
-class ImportedFile(models.Model):
+class FileImport(models.Model):
     file = models.FileField(upload_to='imports')
